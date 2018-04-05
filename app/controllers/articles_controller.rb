@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
 	http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
 	
 	## the below allows non sined in users to the noted pages
-	before_action :authenticate_user!, except: [:index, :show]
+	before_action :authenticate_user!, except: [:index, :show, :upvote, :downvote]
 
 	def index
     	@articles = Article.all
@@ -47,6 +47,20 @@ class ArticlesController < ApplicationController
 	 
 	  redirect_to articles_path
 	end
+
+	def upvote
+		@article = Article.find(params[:id])
+		@article.upvote_by current_user
+
+		redirect_to articles_path
+	end
+
+	def downvote
+		@article = Article.find(params[:id])
+	 	@article.downvote_by current_user
+
+		redirect_to articles_path
+	end
 	 
 	private
 	  def article_params
@@ -54,3 +68,4 @@ class ArticlesController < ApplicationController
 	  end
 
 end
+

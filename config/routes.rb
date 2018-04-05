@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 	resources :articles do
 		resources :comments
 		member do
-	    	post 'upvote'
+	    	put "like", to: "articles#upvote"
+  			put "dislike", to: "articles#downvote"
 	  	end
 	end
 
